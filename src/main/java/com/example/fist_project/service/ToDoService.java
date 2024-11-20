@@ -33,8 +33,7 @@ public class ToDoService {
 
     public ToDo update(Long id, ToDo toDo){
         ToDo existingToDo = toDoRepository.findById(id).orElseThrow(()-> new RuntimeException("Todo not found"));
-        existingToDo.setName(toDo.getName());
-        existingToDo.setDone(toDo.getDone());
+        existingToDo.updateFrom(toDo);
         return toDoRepository.save(existingToDo);
     }
 
