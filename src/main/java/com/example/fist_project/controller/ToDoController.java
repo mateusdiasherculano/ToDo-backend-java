@@ -3,7 +3,9 @@ package com.example.fist_project.controller;
 import com.example.fist_project.entity.ToDo;
 import com.example.fist_project.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +31,8 @@ public class ToDoController {
     }
 
     @PostMapping
-    public ResponseEntity<ToDo> create(@RequestBody ToDo toDo){
-        return ResponseEntity.ok(toDoService.create(toDo));
+    public ResponseEntity<ToDo> create(@Validated @RequestBody ToDo toDo){
+        return ResponseEntity.status(HttpStatus.CREATED).body(toDoService.create(toDo));
     }
 
     @PutMapping("/{id}")
