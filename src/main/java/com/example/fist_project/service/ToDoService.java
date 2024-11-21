@@ -1,5 +1,7 @@
 package com.example.fist_project.service;
 
+import com.example.fist_project.dto.ToDoRequestDTO;
+import com.example.fist_project.dto.ToDoResponseDTO;
 import com.example.fist_project.entity.ToDo;
 import com.example.fist_project.repository.ToDoRepository;
 
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 
 @Service
 @AllArgsConstructor
@@ -18,27 +21,28 @@ public class ToDoService {
     @Autowired
     private final ToDoRepository toDoRepository;
 
-    public List<ToDo> getAll(){
+    public List<ToDo> getAll() {
         return toDoRepository.findAll();
     }
 
 
-    public ToDo getById(Long id){
-        return toDoRepository.findById(id).orElseThrow(()-> new RuntimeException("Todo not found"));
+    public ToDo getById(Long id) {
+        return toDoRepository.findById(id).orElseThrow(() -> new RuntimeException("Todo not found"));
     }
 
-    public ToDo create(ToDo toDo){
-        return toDoRepository.save(toDo);
+    public List<ToDo> create(ToDo toDo) {
+        toDoRepository.save(toDo);
+        return getAll();
     }
 
-    public ToDo update(Long id, ToDo toDo){
-        ToDo existingToDo = toDoRepository.findById(id).orElseThrow(()-> new RuntimeException("Todo not found"));
-        existingToDo.updateFrom(toDo);
-        return toDoRepository.save(existingToDo);
+    public List<ToDo> update(ToDo todo) {
+        toDoRepository.save(todo);
+        return getAll();
     }
 
-    public void delete(Long id){
+    public List<ToDo> delete(Long id) {
         toDoRepository.deleteById(id);
+        return getAll();
     }
 
 }

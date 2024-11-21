@@ -5,23 +5,19 @@ import lombok.Data;
 
 @Entity
 @Data
+@Table(name = "todos")
 public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
+    private String description;
     private Boolean done;
 
 
 
-    public void updateFrom(ToDo source) {
-        if (source.getName() != null) {
-            this.name = source.getName();
-        }
-        if (source.getDone() != null) {
-            this.done = source.getDone();
-        }
-    }
 }
 
 

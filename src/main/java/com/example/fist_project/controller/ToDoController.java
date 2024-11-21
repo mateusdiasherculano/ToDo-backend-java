@@ -1,5 +1,7 @@
 package com.example.fist_project.controller;
 
+import com.example.fist_project.dto.ToDoRequestDTO;
+import com.example.fist_project.dto.ToDoResponseDTO;
 import com.example.fist_project.entity.ToDo;
 import com.example.fist_project.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +23,28 @@ public class ToDoController {
     private final ToDoService toDoService;
 
     @GetMapping
-    public ResponseEntity<List<ToDo>> getAllTodos() {
-        return ResponseEntity.ok(toDoService.getAll());
+    public List<ToDo> getAllTodos() {
+        return toDoService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ToDo> getToDoById(@PathVariable Long id) {
-        return ResponseEntity.ok(toDoService.getById(id));
+    public ToDo getToDoById(@PathVariable Long id) {
+        return toDoService.getById(id);
     }
 
     @PostMapping
-    public ResponseEntity<ToDo> create(@Validated @RequestBody ToDo toDo){
-        return ResponseEntity.status(HttpStatus.CREATED).body(toDoService.create(toDo));
+    public List<ToDo> create(@Validated @RequestBody ToDo todo){
+        return toDoService.create(todo);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ToDo> update(@PathVariable Long id, @RequestBody ToDo toDo){
-        return  ResponseEntity.ok(toDoService.update(id,toDo));
+    @PutMapping
+    public List<ToDo> update( @RequestBody ToDo todo){
+        return toDoService.update(todo);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
-    toDoService.delete(id);
-    return ResponseEntity.noContent().build();
+    public List<ToDo> delete(@PathVariable Long id){
+        return toDoService.delete(id);
+
     }
 }
