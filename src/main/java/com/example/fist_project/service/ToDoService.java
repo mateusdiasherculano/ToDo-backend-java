@@ -1,18 +1,16 @@
 package com.example.fist_project.service;
 
-import com.example.fist_project.dto.ToDoRequestDTO;
 import com.example.fist_project.dto.ToDoResponseDTO;
 import com.example.fist_project.entity.ToDo;
 import com.example.fist_project.repository.ToDoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
 
 @Service
 @AllArgsConstructor
@@ -21,28 +19,37 @@ public class ToDoService {
     @Autowired
     private final ToDoRepository toDoRepository;
 
-    public List<ToDo> getAll() {
-        return toDoRepository.findAll();
+
+
+    // Método para obter todos os ToDos e convertê-los em DTOs
+    public List<ToDoResponseDTO> getAll() {
+        List<ToDo> todos = toDoRepository.findAll();
+        return todos.stream().map(ToDoResponseDTO::convertToDoDTO).collect(Collectors.toList());
     }
 
+    // Método para obter um único ToDo pelo ID e convertê-lo em DTO
+    public ToDoResponseDTO getById(Long id) {
+        ToDo todo = toDoRepository.findById(id).orElseThrow(() -> new RuntimeException("Todo not found"));
+        return ToDoResponseDTO.convertToDoDTO(todo);
 
-    public ToDo getById(Long id) {
-        return toDoRepository.findById(id).orElseThrow(() -> new RuntimeException("Todo not found"));
     }
 
-    public List<ToDo> create(ToDo toDo) {
+    // Métodos de criação, atualização e exclusão de ToDos
+    public List<ToDoResponseDTO> create(ToDo toDo) {
         toDoRepository.save(toDo);
         return getAll();
     }
 
-    public List<ToDo> update(ToDo todo) {
+    public List<ToDoResponseDTO> update(ToDo todo) {
         toDoRepository.save(todo);
         return getAll();
     }
 
-    public List<ToDo> delete(Long id) {
+    public List<ToDoResponseDTO> delete(Long id) {
         toDoRepository.deleteById(id);
         return getAll();
     }
+
+
 
 }

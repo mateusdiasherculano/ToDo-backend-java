@@ -11,7 +11,7 @@ public class ToDo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String title;
     @Column(nullable = false)
     private String description;
     private Boolean done;
